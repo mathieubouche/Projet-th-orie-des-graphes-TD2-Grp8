@@ -1,0 +1,99 @@
+#include <stdio.h>
+
+int main() {
+    // Nom du fichier à ouvrir
+
+
+    // Ouverture du fichier en mode lecture
+    FILE *fichier = fopen("C:\\Users\\mathi\\OneDrive\\Bureau\\projetING2S1\\testpojeting2.txt", "r");
+
+    // Vérification si l'ouverture du fichier a réussi
+    if (!fichier ) {
+        fprintf(stderr, "Impossible d'ouvrir le fichier .\n");
+        return 1; // Code d'erreur
+    }
+
+    // Compteur de lignes
+    int nombreLignes = 0;
+    char caractere;
+    int max=0;
+    // Lecture du fichier caractère par caractère
+    while ((caractere = fgetc(fichier)) != EOF) {
+        if(caractere>max)
+        {
+            max=caractere;
+
+        }
+        if (caractere == '\n') {
+            nombreLignes++;
+        }
+    }
+
+    // Fermeture du fichier
+    fclose(fichier);
+
+
+    FILE *f2 = fopen("C:\\Users\\mathi\\OneDrive\\Bureau\\projetING2S1\\testpojeting2.txt", "r");
+
+    // Vérification si l'ouverture du fichier a réussi
+    if (f2 == NULL) {
+        fprintf(stderr, "Impossible d'ouvrir le fichier .\n");
+        return 1; // Code d'erreur
+    }
+
+    // Variables pour stocker le nombre actuel et le plus grand nombre
+    int s1,s2, plusGrandNombre = 0;
+    nombreLignes--;
+
+    // Lecture du fichier nombre par nombre
+    for (int i=0; i<nombreLignes; ++i)
+    {
+        fscanf(f2,"%d%d",&s1,&s2);
+        if(s1>plusGrandNombre)
+            plusGrandNombre=s1;
+        if(s2>plusGrandNombre)
+            plusGrandNombre=s2;
+    }
+
+    // Fermeture du fichier
+    fclose(f2);
+
+    // Vérification si des nombres ont été trouvés dans le fichier
+
+
+    printf("plus grand %d\n", plusGrandNombre);
+    // Affichage du nombre de lignes
+    printf("Le fichier  contient %d lignes.\n", nombreLignes);
+
+   int tabprec[plusGrandNombre+1][plusGrandNombre+1];
+   for(int k=0;k<plusGrandNombre+1;k++)
+   { for(int z=0;z<plusGrandNombre+1;z++)
+       {tabprec[k][z]=0;}
+
+   }
+
+    FILE *f3 = fopen("C:\\Users\\mathi\\OneDrive\\Bureau\\projetING2S1\\testpojeting2.txt", "r");
+
+    // Vérification si l'ouverture du fichier a réussi
+    if (f3 == NULL) {
+        fprintf(stderr, "Impossible d'ouvrir le fichier .\n");
+        return 1; // Code d'erreur
+    }
+    int ss1,ss2;
+    printf("test1");
+    for (int v=0; v<plusGrandNombre+1; ++v)
+    {
+        fscanf(f3,"%d%d",&ss2,&ss1);
+        tabprec[ss1][ss2]=1;
+
+    }
+    printf("test2\n");
+    for(int n=0;n<plusGrandNombre+1;n++)
+    { for(int m=0;m<plusGrandNombre+1;m++)
+        {printf("%d",tabprec[n][m]);}
+        printf("\n");
+
+    }
+    fclose(f3);
+    return 0; // Fin du programme sans erreur
+}
