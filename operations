@@ -1,0 +1,122 @@
+#include <stdio.h>
+
+// Fonction pour fusionner deux parties triées d'un tableau
+void merge(float arr[][2], int l, int m, int r) {
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    // Créer des tableaux temporaires
+    float L[n1][2], R[n2][2];
+
+    // Copier les données vers les tableaux temporaires L[] et R[]
+    for (i = 0; i < n1; i++) {
+        L[i][0] = arr[l + i][0];
+        L[i][1] = arr[l + i][1];
+    }
+    for (j = 0; j < n2; j++) {
+        R[j][0] = arr[m + 1 + j][0];
+        R[j][1] = arr[m + 1 + j][1];
+    }
+
+    // Fusionner les tableaux temporaires dans arr[l..r]
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = l; // Initial index of merged subarray
+    while (i < n1 && j < n2) {
+        if (L[i][0] <= R[j][0]) {
+            arr[k][0] = L[i][0];
+            arr[k][1] = L[i][1];
+            i++;
+        } else {
+            arr[k][0] = R[j][0];
+            arr[k][1] = R[j][1];
+            j++;
+        }
+        k++;
+    }
+
+    // Copier les éléments restants de L[], si il y en a
+    while (i < n1) {
+        arr[k][0] = L[i][0];
+        arr[k][1] = L[i][1];
+        i++;
+        k++;
+    }
+
+    // Copier les éléments restants de R[], si il y en a
+    while (j < n2) {
+        arr[k][0] = R[j][0];
+        arr[k][1] = R[j][1];
+        j++;
+        k++;
+    }
+}
+
+// Fonction principale pour trier un tableau d'opérations en utilisant le tri par fusion
+void mergeSort(float arr[][2], int l, int r) {
+    if (l < r) {
+        // Trouver le point médian
+        int m = l + (r - l) / 2;
+
+        // Trier la première et la deuxième moitié
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+
+        // Fusionner les moitiés triées
+        merge(arr, l, m, r);
+    }
+}
+int opeartion(){
+    FILE *fptr;
+    int operationCount = 0;
+    float operationNumber;
+    float executionTime;
+
+    // Ouvrir le fichier en mode lecture
+    fptr = fopen("operations.txt", "r");
+
+    // Vérifier si le fichier est ouvert avec succès
+    if (fptr == NULL) {
+        printf("Impossible d'ouvrir le fichier.\n");
+        return 1; // Exit with error code
+    }
+
+    // Lire chaque paire opération-temps du fichier et incrémenter le nombre d'opérations
+    while (fscanf(fptr, "%d %f", &operationNumber, &executionTime) == 2) {
+        operationCount++;
+    }
+
+    // Allouer un tableau 2D pour stocker les opérations
+    float operations[operationCount][2];
+
+    // Rembobiner le fichier pour relire les opérations
+    rewind(fptr);
+
+    // Lire chaque paire opération-temps du fichier et stocker dans le tableau 2D
+    for (int i = 0; i < operationCount; i++) {
+        fscanf(fptr, "%f %f", &operations[i][0], &operations[i][1]);
+
+    }
+
+    // Fermer le fichier
+    fclose(fptr);
+
+    // Trier les opérations par numéro d'opération
+    mergeSort(operations, 0, operationCount - 1);
+
+    // Afficher le nombre d'opérations
+    printf("Le nombre d'opérations dans le fichier est : %d\n", operationCount);
+
+    // Afficher les opérations triées par numéro d'opération
+    printf("Opérations triées par numéro d'opération :\n");
+    for (int i = 0; i < operationCount; i++) {
+        printf("Opération %d : Temps d'exécution %.2f\n", (int)operations[i][0], operations[i][1]);
+    }
+
+    return 0;
+}
+int main() {
+    opeartion();
+
+}
