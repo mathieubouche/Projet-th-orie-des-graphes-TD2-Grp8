@@ -143,10 +143,14 @@ void readOperations(int *taille,float tabtemps[*taille+1],int *operationCount) {
 int precedvalide(int* plusGrandNombre,int tabcouleurs[*plusGrandNombre+1],int tabpred[*plusGrandNombre+1][*plusGrandNombre+1],int* tache,float tabtemps[*plusGrandNombre+1])
 {
     for (int n = 0; n < *plusGrandNombre + 1; n++) {
-        if (tabpred[n][*tache]==1)
+
+
+        if (tabpred[*tache][n]==1)
         {
             if(tabcouleurs[n]==1)
-            {printf("test1");
+            {//printf("\ntache:%d",*tache);
+                //printf("antecedant:%d\n",n);
+
                 return 1;
             }
 
@@ -155,9 +159,12 @@ int precedvalide(int* plusGrandNombre,int tabcouleurs[*plusGrandNombre+1],int ta
 
     }
 
-    if(tabtemps[*tache]>0)
-    {return 1;}
-   // printf("test2");
+    /*if(tabtemps[*tache]>0)
+    {
+        printf("test2sure");
+        return 1;
+        }*/
+
     return 0;
 }
 
@@ -170,6 +177,7 @@ int fin(int* plusGrandNombre,float tabtemps[*plusGrandNombre+1],int tabcouleurs[
     for(int y=0;y<*plusGrandNombre+1;y++)
 {if(tabtemps[y]>0&&tabcouleurs[y]==0)
 {
+    printf("%d",y);
     return 1;
 }
 }
@@ -215,12 +223,12 @@ void tritempspred(int* plusGrandNombre,float tabtemps[*plusGrandNombre+1], int t
 
 
        }
-       for(int y=0;y<*plusGrandNombre+1;y++)
+     /*  for(int y=0;y<*plusGrandNombre+1;y++)
        {
            if(tabcouleurs[y]==1)
                printf("tache:%d\n",y);
 
-       }
+       }*/
 
    }
        printf("\n");
@@ -262,6 +270,8 @@ int main() {
     }
 
     float tabtemps[*plusGrandNombre+1];
+    for(int z=0;z<*plusGrandNombre+1;z++)
+    {tabtemps[z]=0;}
 
     // Lire les opérations et les temps du fichier
     int operationCount = 0;
@@ -270,7 +280,8 @@ int main() {
         if(tabtemps[i]>0)
         printf("Opération %d : Temps d'exécution %.2f\n",i,tabtemps[i]);
     }
-    tritempspred( plusGrandNombre, tabtemps, tabprecede,resultat );
+
+    tritempspred( plusGrandNombre, tabtemps, tab,resultat );
 
     for (int n = 0; n < *plusGrandNombre + 1; n++) {
         for (int m = 0; m < *plusGrandNombre + 1; m++) {
