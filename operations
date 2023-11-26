@@ -109,7 +109,7 @@ int opeartion(){
     printf("Le nombre d'opérations dans le fichier est : %d\n", operationCount);
 
     // Afficher les opérations triées par numéro d'opération
-    printf("Opérations trizes par numero d'operation :\n");
+    printf("Operations trizes par numero d'operation :\n");
     for (int i = 0; i < operationCount; i++) {
         printf("Operation %d : Temps d'execution %.2f\n", (int)operations[i][0], operations[i][1]);
     }
